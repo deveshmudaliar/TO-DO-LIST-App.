@@ -1,0 +1,28 @@
+class TaskAdapter(private val onDelete: (Task) -> Unit) :
+    ListAdapter<Task, TaskAdapter.TaskViewHolder>(DiffCallback()) {
+
+    class TaskViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
+        return TaskViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+        val task = getItem(position)
+        holder.view.findViewById<TextView>(R.id.taskTitle).text = task.title
+        val checkBox = holder.view.findViewById<CheckBox>(R.id.taskDone)
+        checkBox.isChecked = task.isDone
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            task.isDone = isChecked
+        }
+        holder.view.findViewById<ImageButton>(R.id.deleteButton).setOnClickListener {
+            onDelete(task)
+        }
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<Task>() {
+        override fun areItemsTheSame(old: Task, new: Task) = old.id == new.id
+        override fun areContentsTheSame(old: Task, new: Task) = old == new
+    }
+}
