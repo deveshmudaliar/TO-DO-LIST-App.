@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:padding="16dp">
+
+    <EditText android:id="@+id/taskInput" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Enter task" />
+
+    <Button android:id="@+id/addButton" android:text="Add Task"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView" android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:padding="8dp">
+
+    <CheckBox android:id="@+id/taskDone" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView android:id="@+id/taskTitle" android:layout_width="0dp"
+        android:layout_height="wrap_content" android:layout_weight="1"
+        android:text="Sample Task" android:padding="8dp" />
+
+    <ImageButton android:id="@+id/deleteButton"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete" android:contentDescription="Delete" />
+</LinearLayout>
