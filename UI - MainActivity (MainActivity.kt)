@@ -1,0 +1,28 @@
+class MainActivity : AppCompatActivity() {
+    private lateinit var taskViewModel: TaskViewModel
+    private lateinit var adapter: TaskAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val dao = TaskDatabase.getDatabase(this).taskDao()
+        val repository = TaskRepository(dao)
+        taskViewModel = ViewModelProvider(this, TaskViewModelFactory(repository))[TaskViewModel::class.java]
+
+        adapter = TaskAdapter { task -> taskViewModel.delete(task) }
+        findViewById<RecyclerView>(R.id.recyclerView).adapter = adapter
+        findViewById<RecyclerView>(R.id.recyclerView).layoutManager = LinearLayoutManager(this)
+
+        taskViewModel.allTasks.observe(this) {
+            adapter.submitList(it)
+        }
+
+        findViewById<Button>(R.id.addButton).setOnClickListener {
+            val taskTitle = findViewById<EditText>(R.id.taskInput).text.toString()
+            if (taskTitle.isNotBlank()) {
+                taskViewModel.insert(Task(title = taskTitle))
+            }
+        }
+    }
+}
