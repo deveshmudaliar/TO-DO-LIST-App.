@@ -1,0 +1,7 @@
+class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
+    val allTasks: LiveData<List<Task>> = repository.allTasks
+
+    fun insert(task: Task) = viewModelScope.launch { repository.insert(task) }
+    fun delete(task: Task) = viewModelScope.launch { repository.delete(task) }
+    fun updateStatus(id: Int, done: Boolean) = viewModelScope.launch { repository.updateStatus(id, done) }
+}
